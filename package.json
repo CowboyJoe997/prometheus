@@ -1,0 +1,13 @@
+{
+  "name": "prometheus",
+  "version": "1.0.0",
+  "description": "Prometheus helps to analyze javascript promises.",
+  "main": "prometheus.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": ["promise", "analyze", "tool"],
+  "author": "CowboyJoe",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/CowboyJoe997/prometheus" }
+}
