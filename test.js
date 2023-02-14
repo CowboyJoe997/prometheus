@@ -23,7 +23,7 @@ function testSync() {
 
 	// Instead we register an event handler to not crash the app.
 	process.on('unhandledRejection', function(err, promise) {
-		console.log('Unhandled rejection (promise: ', promise, ', reason: ', err, ').');
+		// console.log('Unhandled rejection (promise: ', promise, ', reason: ', err, ').');
 	});
 
 	// now this is working:
@@ -71,7 +71,7 @@ function testSyncWithCyclicUpdate() {
 
 function main() {
 
-	prometheus.DebugLevel = 5;
+	prometheus.DebugLevel = 0;
 
 	console.log('Async is started first');
 	testAsync();
@@ -92,7 +92,7 @@ function main() {
 			prometheus.process(p1, () => { // add this line before the resolve
 				resolve(5)
 			})(); // add this line after the resolve
-		}, 3000);
+		}, 2000);
 	})
 
 	// register it
@@ -101,7 +101,7 @@ function main() {
 	// stop cyclic after 5s
 	setTimeout(() => {
 		prometheus.stopCyclic();
-	}, 5000);
+	}, 3000);
 
 //	prometheus.testSyncWithCyclicUpdate();
 }

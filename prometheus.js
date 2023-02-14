@@ -20,6 +20,7 @@ class Prometheus {
 		this.Promises = new Map();// new List([]);
 		this.Cyclic = undefined;
 		this.DeleteWhenFinished = false;
+		this.Logger = console;
 
 		// WARNING: not sure if this is officially allowed:
 		Promise.prototype.ID = undefined;
@@ -29,7 +30,7 @@ class Prometheus {
 
 		// delay ||= 1000;
 
-		if (this.DebugLevel > 0) console.log('Starting cycylic task with a delay of ' + delay + ' ms.');
+		if (this.DebugLevel > 0) this.Logger.log('Starting cycylic task with a delay of ' + delay + ' ms.');
 		// this.Delay = delay;
 		this.Cyclic = setInterval(() => {
 			prometheus.showRegisteredPromisesSync();
@@ -38,7 +39,7 @@ class Prometheus {
 
 	stopCyclic() {
 
-		if (this.DebugLevel > 0) console.log('Stopping cycylic task.');
+		if (this.DebugLevel > 0) this.Logger.log('Stopping cycylic task.');
 		if (this.Cyclic) {
 			clearInterval(this.Cyclic);
 		}
@@ -59,7 +60,7 @@ class Prometheus {
 	// TODO:
 	info2() {
 		let info = process.binding('util').getPromiseDetails(Promise.resolve({data: [1,2,3]}));
-		console.log(info);
+		this.Logger.log(info);
 
 		// process.binding('util').getPromiseDetails
 
@@ -70,7 +71,7 @@ class Prometheus {
 		if (!promise) throw('ERROR: no promise');
 
 		const s = inspect(promise, { sorted:true });
-		// console.log(s);
+		// this.Logger.log(s);
 
 		// NOTE: results in either of:
 		//
@@ -81,20 +82,20 @@ class Prometheus {
 		// where result and cause are any objects.
 
 		const regexpString = String.raw`^ Promise \s* \{ \s* (?<state><[^>]+>)? (\s+ (?<obj>.*))? (,\s*(?<data>.*))? \s* \} $`;
-		// console.log(regexpString);
+		// this.Logger.log(regexpString);
 
 		const regexpString2 = regexpString.split(' ').join('');
-		// console.log(regexpString2);
+		// this.Logger.log(regexpString2);
 
 		const regex = new RegExp( regexpString2, 'g' );
-		// console.log(regex);
+		// this.Logger.log(regex);
 
 		const iter = s.matchAll(regex);
 		const match = Array.from(iter);
 
 		if (match && (match.length > 0)) {
 			const state = match[0].groups['state'];
-			// console.dir( state + ' ' + match[0].groups['obj'] );
+			// this.dir( state + ' ' + match[0].groups['obj'] );
 			switch (state) {
 				case '<pending>':
 					return 'pending';
@@ -124,21 +125,21 @@ class Prometheus {
 
 			this.getPromiseStateSync(promise);
 
-			s += '    ID: ' + promise.ID + ' Source: ' + promise.Source + ' State: ' + r + '\n'
+			s += '    ID: ' + promise.ID + ' State: ' + r + '\n'
 		}
-		console.log(s);
+		this.Logger.log(s);
 	}
 
 	showRegisteredPromisesSync() {
 
-		let s = this.Promises.size + ' Promise(s) registered:\n';
+		let s = this.Promises.size + ' Promise(s) registered:';
 
 		for (const [key, promise] of this.Promises) {
 
 			const state = this.getPromiseStateSync(promise);
-			s += '    ID: ' + promise.ID + ' State: ' + state + '\n'
+			s += '\n    ID: ' + promise.ID + ' State: ' + state
 		}
-		console.log(s);
+		this.Logger.log(s);
 	}
 
 	isRegistered(promise) {
@@ -147,13 +148,13 @@ class Prometheus {
 
 	register(promise, id) {
 
-		if (promise.ID || promise.Source) throw('ERROR: promise not clean!');
+		if (promise.ID) throw('ERROR: promise not clean!');
 
 		promise.ID = id;
 
 		if (this.isRegistered(promise)) throw('ERROR: Promise already exists!');
 
-		if (this.DebugLevel > 0) console.log('Adding a watch to a promise with ID ' + promise.ID + ' from ' + promise.Source);
+		if (this.DebugLevel > 0) this.Logger.log('Adding a watch to a promise with ID ' + promise.ID );
 		this.Promises.set(promise.ID, promise);
 
 		return promise;
@@ -163,19 +164,19 @@ class Prometheus {
 
 		if (!this.isRegistered(promise.ID)) throw('ERROR: Promise not found!');
 
-		if (this.DebugLevel > 0) this.log('Removing promise with ID ' + promise.id);
+		if (this.DebugLevel > 0) this.Logger.log('Removing promise with ID ' + promise.id);
 		// this.Promises = this.Promises.filter(item => item[2] !== promise);
 		delete this.Promises(promise);
 	}
 
 	process( promise, callback ) {
 
-		if (this.DebugLevel > 0) console.log('Procerssing promise with ID ' + promise.ID);
+		if (this.DebugLevel > 0) this.Logger.log('Procerssing promise with ID ' + promise.ID);
 
 		if (this.DeleteWhenFinished) this.remove(promise);
 
 		return ( () => {
-			if (this.DebugLevel > 0) console.log('callback');
+			if (this.DebugLevel > 0) this.Logger.log('callback');
 			callback();
 		}).bind(promise);
 	}
