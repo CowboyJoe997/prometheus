@@ -136,7 +136,7 @@ class Prometheus {
 		for (const [key, promise] of this.Promises) {
 
 			const state = this.getPromiseStateSync(promise);
-			s += '    ID: ' + promise.ID + ' Source: ' + promise.Source + ' State: ' + state + '\n'
+			s += '    ID: ' + promise.ID + ' State: ' + state + '\n'
 		}
 		console.log(s);
 	}
