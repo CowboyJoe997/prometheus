@@ -1,4 +1,7 @@
 # prometheus
+
+[![Node.js CI](https://github.com/CowboyJoe997/prometheus/actions/workflows/node.js.yml/badge.svg)](https://github.com/CowboyJoe997/prometheus/actions/workflows/node.js.yml)
+
 Prometheus helps to analyze javascript promises.
 
 Prometheus is a helper tool that shows your promises.
