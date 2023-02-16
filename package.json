@@ -15,6 +15,7 @@
     "url": "https://github.com/CowboyJoe997/prometheus"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/CowboyJoe997"
+    "registryOld": "https://npm.pkg.github.com/CowboyJoe997",
+    "registry": "https://registry.npmjs.org/"
   }
 }
