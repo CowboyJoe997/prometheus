@@ -24,7 +24,7 @@ npm install https://github.com/CowboyJoe997/prometheus
 
 To get an overview try
 ```console
-npm run test
+npm run demo
 ```
 and see test.js for more info.
 
