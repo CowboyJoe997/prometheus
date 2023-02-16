@@ -112,13 +112,13 @@ A cyclic task can be used to show all promises repeatedly.
 
 To start it use:
 ```javascript
-	prometheus.startCyclic(500);
+prometheus.startCyclic(500);
 
 ```
 
 To stop it use:
 ```javascript
-	prometheus.stopCyclic();
+prometheus.stopCyclic();
 ```
 
 # License

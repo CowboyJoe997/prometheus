@@ -9,5 +9,11 @@
   "keywords": ["promise", "analyze", "tool"],
   "author": "CowboyJoe",
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/CowboyJoe997/prometheus" }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CowboyJoe997/prometheus"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/CowboyJoe997"
+  }
 }
