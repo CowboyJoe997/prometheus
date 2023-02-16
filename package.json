@@ -4,7 +4,8 @@
   "description": "Prometheus helps to analyze javascript promises.",
   "main": "prometheus.js",
   "scripts": {
-    "test": "node test.js"
+    "demo": "node test.js",
+    "test": "echo no test"
   },
   "keywords": ["promise", "analyze", "tool"],
   "author": "CowboyJoe",
